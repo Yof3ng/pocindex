@@ -1,0 +1,26 @@
+# Local/version-control metadata
+.git
+.gitignore
+.DS_Store
+data/
+.venv/
+
+# Python/cache/editor noise
+**/__pycache__/
+**/*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Build products produced by scripts/build_*.py. Keep docs/stats.json because
+# build_pages.py reads it from the tracked source tree.
+docs/*.json
+!docs/stats.json
+docs/*.html
+docs/*.xml
+docs/robots.txt
+docs/social-card.png
+
+# Local migration artifacts
+dist/
+pocindex-image*.tar.gz

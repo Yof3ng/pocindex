@@ -1,0 +1,31 @@
+name: pocindex
+
+services:
+  web:
+    image: ${POCINDEX_IMAGE:-pocindex:local}
+    container_name: ${POCINDEX_CONTAINER_NAME:-pocindex-web}
+    ports:
+      - "${POCINDEX_BIND:-127.0.0.1}:${POCINDEX_PORT:-8765}:8000"
+    init: true
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=16m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 128
+    mem_limit: 512m
+    restart: unless-stopped
+    stop_grace_period: 5s
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/', timeout=3).read(1)"]
+      interval: 30s
+      timeout: 5s
+      start_period: 10s
+      retries: 3
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
